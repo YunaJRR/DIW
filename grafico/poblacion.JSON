@@ -1,0 +1,66 @@
+[
+    {
+        "dato1": "Andalucía",
+        "dato2": 8463000
+    },
+    {
+        "dato1": "Cataluña",
+        "dato2": 7694000
+    },
+    {
+        "dato1": "Madrid",
+        "dato2": 6693000
+    },
+    {
+        "dato1": "Valencia",
+        "dato2": 5056000
+    },
+    {
+        "dato1": "Galicia",
+        "dato2": 2916000
+    },
+    {
+        "dato1": "Castilla y León",
+        "dato2": 2245000
+    },
+    {
+        "dato1": "Murcia",
+        "dato2": 1518000
+    },
+    {
+        "dato1": "Aragón",
+        "dato2": 1323000
+    },
+    {
+        "dato1": "País Vasco",
+        "dato2": 2192000
+    },
+    {
+        "dato1": "Canarias",
+        "dato2": 2153000
+    },
+    {
+        "dato1": "Extremadura",
+        "dato2": 1045000
+    },
+    {
+        "dato1": "Asturias",
+        "dato2": 1023000
+    },
+    {
+        "dato1": "Islas Baleares",
+        "dato2": 1165000
+    },
+    {
+        "dato1": "La Rioja",
+        "dato2": 322000
+    },
+    {
+        "dato1": "Ceuta",
+        "dato2": 85000
+    },
+    {
+        "dato1": "Melilla",
+        "dato2": 85000
+    }
+]
