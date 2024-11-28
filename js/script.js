@@ -13,15 +13,15 @@ $(document).ready(function() {
             return; 
         } 
         const tablaTareas = $("#tabla-tareas");
-        const nuevaFilaTareas = document.createElement("tr");
-        $(nuevaFilaTareas).attr("id", `${contador}`);
-        nuevaFilaTareas.innerHTML = `
+        const nuevaFilaTareas = $(`<tr id="${contador}">
             <td class='tarea-${contador}'>${inputTarea}</td>
             <td class='acciones'>
                 <button class='btn btn-success' onclick="completarTarea(${contador})">Completar</button>
                 <button class='btn btn-warning' onclick="editarTarea(${contador})">Editar</button>
                 <button class='btn btn-danger' onclick="$('#${contador}').remove(); eliminarTarea(${contador})">Eliminar</button>
-            </td>`;
+            </td>
+        </tr>`); 
+    
         tablaTareas.append(nuevaFilaTareas);
         $("#input-tarea").val("");
         tareasPendientes.push({ id: contador, texto: inputTarea });
@@ -31,10 +31,8 @@ $(document).ready(function() {
     function filtrarTareas(filtro) {
         $("#tabla-tareas").empty(); 
         let tareasAFiltrar = [];
-
         switch (filtro) {
             case 'todas':
-                // Aquí usamos el operador "Spread" (...) para añadir al array de tareasAFiltrar las nuevas tareas pendientes y completadas
                 tareasAFiltrar = [...tareasPendientes, ...tareasCompletadas];
                 cambiarEstiloFiltro('todas');
                 break;
@@ -47,19 +45,19 @@ $(document).ready(function() {
                 cambiarEstiloFiltro('pendientes');
                 break;
         }
-    
+        // Ordena las tareas antes de mostrarlas
+        tareasAFiltrar.sort((a, b) => a.id - b.id);
         tareasAFiltrar.forEach(tarea => {
-            const nuevaFilaTareas = document.createElement("tr");
-            $(nuevaFilaTareas).attr("id", `${tarea.id}`);
-            nuevaFilaTareas.innerHTML = `
-                <td class='tarea-${tarea.id}'>${tarea.texto}</td>
+            const nuevaFilaTareas = $(`<tr id="${tarea.id}">
+                <td class='tarea-${tarea.id}' style="${tareasCompletadas.some(t => t.id === tarea.id) ? 'text-decoration: line-through; color: gray;' : ''}">${tarea.texto}</td>
                 <td class='acciones'>
                     ${tareasCompletadas.some(t => t.id === tarea.id) ? 
                         `<button class='btn btn-info' onclick="descompletarTarea(${tarea.id})">Descompletar</button>` : 
                         `<button class='btn btn-success' onclick="completarTarea(${tarea.id})">Completar</button>`}
                     <button class='btn btn-warning' onclick="editarTarea(${tarea.id})">Editar</button>
                     <button class='btn btn-danger' onclick="$('#${tarea.id}').remove(); eliminarTarea(${tarea.id})">Eliminar</button>
-                </td>`;
+                </td>
+            </tr>`);
             $("#tabla-tareas").append(nuevaFilaTareas);
         });
     }
@@ -81,21 +79,17 @@ $(document).ready(function() {
         if (tareaIndex !== -1) {
             const tarea = tareasPendientes.splice(tareaIndex, 1)[0];
             tareasCompletadas.push(tarea);
-            $(`.tarea-${tareaId}`).css({
-                "text-decoration": "line-through"
-            });
+            
             filtrarTareas($('#btn-todas').hasClass('btn-primary') ? 'todas' : 'pendientes');
         }
     }
-
+    
     descompletarTarea = function(tareaId) {
         const tareaIndex = tareasCompletadas.findIndex(t => t.id === tareaId);
         if (tareaIndex !== -1) {
             const tarea = tareasCompletadas.splice(tareaIndex, 1)[0];
             tareasPendientes.push(tarea);
-            $(`.tarea-${tareaId}`).css({
-                "text-decoration": "none"
-            });
+            
             filtrarTareas($('#btn-todas').hasClass('btn-primary') ? 'todas' : 'completadas'); 
         }
     }
@@ -115,6 +109,16 @@ $(document).ready(function() {
         const inputEdicion = $(`#${contador} .input-edicion`);
         const textoEditado = inputEdicion.val();
         $(`.tarea-${contador}`).text(textoEditado); 
+    
+        const tareaIndexPendiente = tareasPendientes.findIndex(t => t.id === contador);
+        const tareaIndexCompletada = tareasCompletadas.findIndex(t => t.id === contador);
+        if (tareaIndexPendiente !== -1) {
+            tareasPendientes[tareaIndexPendiente].texto = textoEditado; 
+        } else if (tareaIndexCompletada !== -1) {
+            tareasCompletadas[tareaIndexCompletada].texto = textoEditado;
+        }
+        
+    
         $(`#${contador} .acciones`).html(`
             <button class='btn btn-success' onclick="completarTarea(${contador})">Completar</button>
             <button class='btn btn-warning' onclick="editarTarea(${contador})">Editar</button>
