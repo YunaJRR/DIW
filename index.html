@@ -11,23 +11,33 @@
 <body>
     <h2 class="text-center my-5">To-Do List Interactiva</h2>
     <div class="container">
-        
         <form>
             <input id="input-tarea" type="text" class="form-control" placeholder="Añadir nueva tarea...">
         </form>
-    <hr>
-    <button id="btn-añadir-tarea" type="button" class="btn btn-primary">Añadir</button>
+        <hr>
+        <button id="btn-añadir-tarea" type="button" class="btn btn-primary">Añadir</button>
         <table class="table mt-4 table-hover">
             <thead>
                 <tr>
                     <th></th>
                     <th></th>
                 </tr>
-            </thead>
+            </thead>    
             <tbody id="tabla-tareas">
-
             </tbody>
         </table>
+        <div class="btn-group mt-3">
+            <div class="mx-2">
+                <button id="btn-todas" type="button" class="btn btn-primary btn-sm">Todas</button>
+            </div>
+            <div class="mx-2">
+                <button id="btn-completadas" type="button" class="btn btn-secondary btn-sm">Completadas</button>
+            </div>
+            <div class="mx-2">
+                <button id="btn-pendientes" type="button" class="btn btn-secondary btn-sm">Pendientes</button>
+            </div>
+            
+        </div>
     </div>
 
     <script src="jquery/jquery.js" type="text/javascript"></script>
