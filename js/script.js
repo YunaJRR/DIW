@@ -33,6 +33,7 @@ $(document).ready(function() {
         let tareasAFiltrar = [];
         switch (filtro) {
             case 'todas':
+                // Aquí usamos el operador "Spread" [...] para añadir al array de tareasAFiltrar las nuevas tareas pendientes y completadas
                 tareasAFiltrar = [...tareasPendientes, ...tareasCompletadas];
                 cambiarEstiloFiltro('todas');
                 break;
@@ -75,6 +76,7 @@ $(document).ready(function() {
     }
 
     completarTarea = function(tareaId) {
+        // Buscamos la tarea en el array de tareas pendientes y la cambiamos al de completadas
         const tareaIndex = tareasPendientes.findIndex(t => t.id === tareaId);
         if (tareaIndex !== -1) {
             const tarea = tareasPendientes.splice(tareaIndex, 1)[0];
@@ -85,6 +87,7 @@ $(document).ready(function() {
     }
     
     descompletarTarea = function(tareaId) {
+        // Buscamos la tarea en el array de tareas completadas y la cambiamos al de pendientes
         const tareaIndex = tareasCompletadas.findIndex(t => t.id === tareaId);
         if (tareaIndex !== -1) {
             const tarea = tareasCompletadas.splice(tareaIndex, 1)[0];
@@ -100,7 +103,7 @@ $(document).ready(function() {
         tdTarea.html(`<input type='text' class='input-edicion' value='${textoInicial}' />`);
         const accionesTd = $(`#${contador} .acciones`);
         accionesTd.html(`
-            <button class='btn btn-success' onclick='confirmarEdicion(${contador}, "${textoInicial}")'>Confirmar</button>
+            <button class='btn btn-success' onclick='confirmarEdicion(${contador})'>Confirmar</button>
             <button class='btn btn-danger' onclick='cancelarEdicion(${contador}, "${textoInicial}")'>Cancelar</button>
         `);
     }
@@ -108,26 +111,30 @@ $(document).ready(function() {
     confirmarEdicion = function(contador) {
         const inputEdicion = $(`#${contador} .input-edicion`);
         const textoEditado = inputEdicion.val();
-        $(`.tarea-${contador}`).text(textoEditado); 
-    
-        const tareaIndexPendiente = tareasPendientes.findIndex(t => t.id === contador);
-        const tareaIndexCompletada = tareasCompletadas.findIndex(t => t.id === contador);
-        if (tareaIndexPendiente !== -1) {
-            tareasPendientes[tareaIndexPendiente].texto = textoEditado; 
-        } else if (tareaIndexCompletada !== -1) {
-            tareasCompletadas[tareaIndexCompletada].texto = textoEditado;
+
+        if (textoEditado !== ""){
+            $(`.tarea-${contador}`).text(textoEditado); 
+        
+            const tareaIndexPendiente = tareasPendientes.findIndex(t => t.id === contador);
+            const tareaIndexCompletada = tareasCompletadas.findIndex(t => t.id === contador);
+            if (tareaIndexPendiente !== -1) {
+                tareasPendientes[tareaIndexPendiente].texto = textoEditado; 
+            } else if (tareaIndexCompletada !== -1) {
+                tareasCompletadas[tareaIndexCompletada].texto = textoEditado;
+            }
+            
+        
+            $(`#${contador} .acciones`).html(`
+                <button class='btn btn-success' onclick="completarTarea(${contador})">Completar</button>
+                <button class='btn btn-warning' onclick="editarTarea(${contador})">Editar</button>
+                <button class='btn btn-danger' onclick="$('#${contador}').remove(); eliminarTarea(${contador})">Eliminar</button>
+            `);
         }
         
-    
-        $(`#${contador} .acciones`).html(`
-            <button class='btn btn-success' onclick="completarTarea(${contador})">Completar</button>
-            <button class='btn btn-warning' onclick="editarTarea(${contador})">Editar</button>
-            <button class='btn btn-danger' onclick="$('#${contador}').remove(); eliminarTarea(${contador})">Eliminar</button>
-        `);
     }
 
-    cancelarEdicion = function(contador, previousText) {
-        $(`.tarea-${contador}`).text(previousText);
+    cancelarEdicion = function(contador, textoPrevio) {
+        $(`.tarea-${contador}`).text(textoPrevio);
         $(`#${contador} .acciones`).html(`
             <button class='btn btn-success' onclick="completarTarea(${contador})">Completar</button>
             <button class='btn btn-warning' onclick="editarTarea(${contador})">Editar</button>
