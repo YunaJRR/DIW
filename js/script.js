@@ -13,6 +13,7 @@ $(document).ready(function() {
             return; 
         } 
         const tablaTareas = $("#tabla-tareas");
+        
         const nuevaFilaTareas = $(`<tr id="${contador}">
             <td class='tarea-${contador}'>${inputTarea}</td>
             <td class='acciones'>
@@ -21,6 +22,7 @@ $(document).ready(function() {
                 <button class='btn btn-danger' onclick="$('#${contador}').remove(); eliminarTarea(${contador})">Eliminar</button>
             </td>
         </tr>`); 
+        
     
         tablaTareas.append(nuevaFilaTareas);
         $("#input-tarea").val("");
@@ -46,6 +48,7 @@ $(document).ready(function() {
                 cambiarEstiloFiltro('pendientes');
                 break;
         }
+
         // Ordena las tareas antes de mostrarlas
         tareasAFiltrar.sort((a, b) => a.id - b.id);
         tareasAFiltrar.forEach(tarea => {
@@ -54,8 +57,8 @@ $(document).ready(function() {
                 <td class='acciones'>
                     ${tareasCompletadas.some(t => t.id === tarea.id) ? 
                         `<button class='btn btn-info' onclick="descompletarTarea(${tarea.id})">Descompletar</button>` : 
-                        `<button class='btn btn-success' onclick="completarTarea(${tarea.id})">Completar</button>`}
-                    <button class='btn btn-warning' onclick="editarTarea(${tarea.id})">Editar</button>
+                        `<button class='btn btn-success' onclick="completarTarea(${tarea.id})">Completar</button>
+                        <button class='btn btn-warning' onclick="editarTarea(${contador})">Editar</button>`}
                     <button class='btn btn-danger' onclick="$('#${tarea.id}').remove(); eliminarTarea(${tarea.id})">Eliminar</button>
                 </td>
             </tr>`);
