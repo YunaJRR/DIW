@@ -9,7 +9,7 @@ $(document).ready(function() {
 
     function añadirTarea() {
         const inputTarea = $("#input-tarea").val();
-        if (inputTarea.trim() === ""){
+        if (inputTarea.trim() === "") {
             return; 
         } 
         const tablaTareas = $("#tabla-tareas");
@@ -22,20 +22,22 @@ $(document).ready(function() {
                 <button class='btn btn-danger' onclick="$('#${contador}').remove(); eliminarTarea(${contador})">Eliminar</button>
             </td>
         </tr>`); 
-        
     
         tablaTareas.append(nuevaFilaTareas);
         $("#input-tarea").val("");
         tareasPendientes.push({ id: contador, texto: inputTarea });
         contador++; 
+        filtrarTareas('pendientes'); 
     }
 
     function filtrarTareas(filtro) {
-        $("#tabla-tareas").empty(); 
+        const tablaTareas = $("#tabla-tareas");
+        tablaTareas.empty(); 
         let tareasAFiltrar = [];
+        
         switch (filtro) {
+            // Aquí usamos el operador "Spread" [...] para añadir al array de tareasAFiltrar las nuevas tareas pendientes y completadas
             case 'todas':
-                // Aquí usamos el operador "Spread" [...] para añadir al array de tareasAFiltrar las nuevas tareas pendientes y completadas
                 tareasAFiltrar = [...tareasPendientes, ...tareasCompletadas];
                 cambiarEstiloFiltro('todas');
                 break;
@@ -48,7 +50,12 @@ $(document).ready(function() {
                 cambiarEstiloFiltro('pendientes');
                 break;
         }
-
+    
+        if (tareasAFiltrar.length === 0) {
+            mostrarMensajeTablaVacia(tablaTareas, 'No hay tareas registradas');
+            return; 
+        }
+    
         // Ordena las tareas antes de mostrarlas
         tareasAFiltrar.sort((a, b) => a.id - b.id);
         tareasAFiltrar.forEach(tarea => {
@@ -58,11 +65,11 @@ $(document).ready(function() {
                     ${tareasCompletadas.some(t => t.id === tarea.id) ? 
                         `<button class='btn btn-info' onclick="descompletarTarea(${tarea.id})">Descompletar</button>` : 
                         `<button class='btn btn-success' onclick="completarTarea(${tarea.id})">Completar</button>
-                        <button class='btn btn-warning' onclick="editarTarea(${contador})">Editar</button>`}
+                        <button class='btn btn-warning' onclick="editarTarea(${tarea.id})">Editar</button>`}
                     <button class='btn btn-danger' onclick="$('#${tarea.id}').remove(); eliminarTarea(${tarea.id})">Eliminar</button>
                 </td>
             </tr>`);
-            $("#tabla-tareas").append(nuevaFilaTareas);
+            tablaTareas.append(nuevaFilaTareas);
         });
     }
 
@@ -150,6 +157,20 @@ $(document).ready(function() {
         tareasCompletadas = tareasCompletadas.filter(t => t.id !== contador);
     }
 
+    function mostrarMensajeTablaVacia(tablaSelector, mensaje) {
+        $(tablaSelector).empty();
+    
+        const nuevaFila = $('<tr></tr>');
+        const nuevaCelda = $('<td></td>')
+            .attr('colspan', $(tablaSelector).find('tr:first td').length) 
+            .addClass('text-center')
+            .text(mensaje);
+    
+        nuevaFila.append(nuevaCelda);
+        $(tablaSelector).append(nuevaFila);
+    }
+
+    filtrarTareas();
     $("#btn-todas").click(() => filtrarTareas('todas'));
     $("#btn-completadas").click(() => filtrarTareas('completadas'));
     $("#btn-pendientes").click(() => filtrarTareas('pendientes'));
