@@ -1,0 +1,19 @@
+header {
+    background-color: #712CF8; 
+    padding: 10px 0; 
+    color: white;
+}
+
+.nav-item {
+    margin: 0 10px; 
+}
+
+main{
+    margin-top: 1%;
+}
+
+.secciones{
+    border: 1px solid;
+    max-width: 40%;
+    margin: 8px;
+}
