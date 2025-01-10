@@ -1,3 +1,7 @@
+body{
+    background-color: white;
+    color: black;
+}
 header {
     background-color: #712CF8; 
     padding: 10px 0; 
@@ -16,4 +20,18 @@ main{
     border: 1px solid;
     max-width: 40%;
     margin: 8px;
+    padding: 10px;
 }
+.modo-oscuro {
+    background-color: black;
+    color: white;
+}
+#progresoScroll{
+    position: fixed;
+    top: 0;
+    width: 0%;
+    height: 4px;
+    background: #ff7979;
+    z-index: 10000;
+    transition: width 0.3s ease;
+  }
