@@ -1,7 +1,27 @@
-body{
-    background-color: white;
-    color: black;
+:root {
+    --background-color: white;
+    --text-color: black;
+    --button-background: blue; 
+    --button-text-color: white; 
+    --section-border-color: black; 
+    --progress-bar-background: #ff7979; 
 }
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.modo-oscuro {
+    --background-color: black;
+    --text-color: white;
+    --button-background: #333; 
+    --button-text-color: white; 
+    --section-border-color: white; 
+    --progress-bar-background: #ff7979; 
+}
+
 header {
     background-color: #712CF8; 
     padding: 10px 0; 
@@ -12,26 +32,79 @@ header {
     margin: 0 10px; 
 }
 
+button, a{
+    background-color: var(--button-background)!important;
+    color: var(--button-text-color)!important;
+    transition: var(--transition-duration)!important;
+    border: var(--section-border-color)!important;
+}
+
+
 main{
     margin-top: 1%;
+    min-height: 64vh;
 }
 
 .secciones{
-    border: 1px solid;
+    border: 1px solid var(--section-border-color);
     max-width: 40%;
     margin: 8px;
     padding: 10px;
-}
-.modo-oscuro {
-    background-color: black;
-    color: white;
 }
 #progresoScroll{
     position: fixed;
     top: 0;
     width: 0%;
     height: 4px;
-    background: #ff7979;
+    background: var(--progress-bar-background);
     z-index: 10000;
     transition: width 0.3s ease;
-  }
+}
+.btnIrArriba {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none; 
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1000;
+    width: 100px ;
+}
+
+.content {
+    padding: 20px;
+    min-height: 80vh; 
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.contact-info {
+    margin-bottom: 10px;
+}
+
+@media (min-width: 600px) {
+    .footer-container {
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 0 20px;
+    }
+    .contact-info {
+        margin-bottom: 0;
+    }
+}
