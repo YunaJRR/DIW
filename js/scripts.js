@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let hora = fecha.getHours();
     let clicks = 0;
     let textoTamañoDefault = true;
+    let colorActual = '';
 
     if (hora > 6 && hora < 12) {
         textoDinamico.innerHTML = 'Buenos días';
@@ -61,8 +62,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     function cambiaFondo(selector) {
-        let colorActual = ''; 
-        let colorAleatorio;
+        
         const colores = [
             'lightblue',
             'lightcoral',
@@ -78,9 +78,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
             'lightsteelblue',
             'lightyellow'
         ];
-        do {
+         
+        let colorAleatorio = colores[Math.floor(Math.random() * colores.length)];
+        
+        while (colorActual === colorAleatorio){
+            console.log(2);
+            
             colorAleatorio = colores[Math.floor(Math.random() * colores.length)];
-        } while (colorActual === colorAleatorio);
+        }
         colorActual = colorAleatorio;
 
         const seccion = document.querySelector(selector);
@@ -104,7 +109,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         elementosTexto.forEach(elemento => {
             const tamañoActual = parseFloat(window.getComputedStyle(elemento, null).getPropertyValue('font-size'));
             const nuevoTamaño = tamañoDefault ? (tamañoActual * 1.2): (tamañoActual / 1.2);
-            elemento.style.fontSize = nuevoTamaño + 'px'; 
+            elemento.style.fontSize = Math.round(nuevoTamaño) + 'px'; 
         });
 
         setTimeout(() => {
@@ -129,7 +134,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 	}
 
     const leerPagina = () => {
-        const textoPagina = new SpeechSynthesisUtterance(textoDinamico.innerHTML + ", Cambiar tema, Tamaño texto, Leer página. Seccion 1. Seccion 2. Con este botón podrás cambiar el color de fondo de esta sección, Nuevo Fondo, Contador de clicks, Click, Numero de clicks: " + clicks +' ...Contactanos. Email: jaimerocharodriguez04@gmail.com . Teléfono: +34 622188432. Dirección: Av. Reina Sofía 6. © 2025 Jaime Rocha Rodríguez. All rights reserved.');
+        const textoPagina = new SpeechSynthesisUtterance(document.body.innerText);
         speechSynthesis.speak(textoPagina);
     };
 	

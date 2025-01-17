@@ -19,7 +19,11 @@ body {
     --button-background: #333; 
     --button-text-color: white; 
     --section-border-color: white; 
-    --progress-bar-background: #ff7979; 
+    --progress-bar-background: #b40000; 
+}
+
+p, div {
+    font-size: 16px; 
 }
 
 header {
